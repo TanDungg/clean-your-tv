@@ -1,0 +1,17 @@
+{
+  "dock_apps": [
+    "com.google.android.youtube.tv",
+    "com.viettel.tv360.tv",
+    "com.netflix.ninja",
+    "net.fptplay.ottbox"
+  ],
+  "dock_title": false,
+  "rows_below_dock": 1,
+  "wallpaper": true,
+  "wallpaper_true_color": true,
+  "ambient_glow": false,
+  "app_glow": false,
+  "dock_glass": true,
+  "dock_opacity": 70,
+  "advanced_effects": false
+}
