@@ -1,7 +1,34 @@
 # 📺 Hướng Dẫn Từng Bước Dọn Dẹp & Cài Launcher Mới Cho TV (CleanYourTV)
 
+> **Repository:** [https://github.com/TanDungg/clean-your-tv.git](https://github.com/TanDungg/clean-your-tv.git)  
 > **Dành cho:** Android TV và Google TV (Đặc biệt tối ưu cho **Sony BRAVIA**, TCL, Xiaomi, Hisense,...).  
 > **Ưu điểm:** Không cần root, không làm mất bảo hành, tăng tốc TV, loại bỏ quảng cáo/theo dõi, có thể khôi phục lại trạng thái cũ bất cứ lúc nào.
+
+---
+
+## 📦 KHI CLONE CODE VỀ MÁY TÍNH MỚI
+
+### 1. Phần mềm cần có sẵn trên máy tính
+* **Python** (phiên bản 3.9 trở lên, ví dụ Python 3.11): Dùng để chạy script ADB qua mạng.  
+  *(Khi cài đặt Python trên Windows, nhớ tích chọn ô **"Add python.exe to PATH"**)*.
+* **Java JDK 17** & **Android SDK** *(Chỉ cần khi muốn build Launcher cài lên TV)*:  
+  * Cài **Android Studio** là máy sẽ tự động có đầy đủ cả Java (nằm trong thư mục `jbr`) và Android SDK.
+
+### 2. Các lệnh khởi tạo sau khi clone (Chỉ chạy 1 lần duy nhất)
+Mở cửa sổ **PowerShell** và chạy lần lượt:
+
+```powershell
+# 1. Tải code từ GitHub về máy
+git clone https://github.com/TanDungg/clean-your-tv.git
+cd clean-your-tv
+
+# 2. Tạo môi trường ảo Python
+python -m venv tools\venv
+
+# 3. Cài đặt các thư viện kết nối ADB không dây
+tools\venv\Scripts\pip install -r tools\requirements.txt
+```
+> *(Chạy xong bước này là máy tính đã sẵn sàng 100% để kết nối và thao tác với TV).*
 
 ---
 
@@ -20,25 +47,11 @@
 
 ---
 
-## 💻 GIAI ĐOẠN 2: Thao Tác Trên Máy Tính
+## 💻 GIAI ĐOẠN 2: Thao Tác Với TV Trên Máy Tính
 
-Mở ứng dụng **PowerShell** trên máy tính, chuyển vào thư mục dự án này:
-```powershell
-cd D:\SourceCodeFE\Front-end\cleanyourtv-main
-```
+Mở ứng dụng **PowerShell** tại thư mục dự án `clean-your-tv`:
 
-### Bước 1: Khởi tạo môi trường (Chỉ cần làm lần đầu tiên)
-```powershell
-# Tạo môi trường ảo Python
-python -m venv tools\venv
-
-# Cài đặt thư viện giao tiếp ADB qua mạng
-tools\venv\Scripts\pip install -r tools\requirements.txt
-```
-
----
-
-### Bước 2: Kết nối thử nghiệm với TV
+### Bước 1: Kết nối thử nghiệm với TV
 Thay địa chỉ IP dưới đây bằng **IP thực tế của TV nhà bạn** (đã xem ở Giai đoạn 1):
 
 ```powershell
@@ -46,17 +59,17 @@ Thay địa chỉ IP dưới đây bằng **IP thực tế của TV nhà bạn**
 $env:TV_HOST = "192.168.1.50"
 
 # 2. Thử kết nối và kiểm tra thông tin TV
-python tools\tv.py --probe
+tools\venv\Scripts\python tools\tv.py --probe
 ```
 
-> ⚠️ **LƯU Ý:** Lúc này trên màn hình TV sẽ hiện một popup:
-> **"Cho phép gỡ lỗi USB? (Allow USB debugging?)"**
-> 👉 Hãy dùng remote TV tích chọn **"Luôn cho phép từ máy tính này"** rồi bấm **OK / Cho phép**.
+> ⚠️ **LƯU Ý:** Lúc này trên màn hình TV sẽ hiện một popup:  
+> **"Cho phép gỡ lỗi USB? (Allow USB debugging?)"**  
+> 👉 Hãy dùng remote TV tích chọn **"Luôn cho phép từ máy tính này"** rồi bấm **OK / Cho phép**.  
 > Sau khi bấm xong, màn hình PowerShell sẽ in ra đầy đủ model TV, chip xử lý và phiên bản Android.
 
 ---
 
-### Bước 3: Tắt ứng dụng rác, quảng cáo và theo dõi (Debloat)
+### Bước 2: Tắt ứng dụng rác, quảng cáo và theo dõi (Debloat)
 
 Chọn file danh sách tương ứng với dòng TV của bạn trong thư mục `examples\`:
 
@@ -79,7 +92,7 @@ Chọn file danh sách tương ứng với dòng TV của bạn trong thư mục
 
 ---
 
-### Bước 4: Biên dịch và cài đặt Launcher mới lên TV
+### Bước 3: Biên dịch và cài đặt Launcher mới lên TV
 Chạy script đóng gói và cài đặt tự động:
 ```powershell
 launcher\build-and-install.ps1
@@ -100,7 +113,7 @@ Script sẽ tự động:
 2. Khởi động lại TV (Restart).
 3. Trên máy tính, chạy lệnh kiểm tra xem cổng ADB đã đóng an toàn chưa:
    ```powershell
-   python tools\adb-closed.py $env:TV_HOST
+   tools\venv\Scripts\python tools\adb-closed.py $env:TV_HOST
    ```
    *Nếu hiển thị thông báo `... is closed` là TV đã được bảo mật tuyệt đối.*
 
@@ -124,5 +137,5 @@ Toàn bộ các ứng dụng và màn hình gốc của TV sẽ được kích h
 | Tình huống | Cách xử lý |
 |---|---|
 | **Lệnh `tv.py --probe` báo lỗi timed out / không kết nối được** | Kiểm tra TV và máy tính có bắt chung một mạng Wi-Fi không; kiểm tra xem TV có bị đổi IP không. |
-| **Không thấy hiện popup "Cho phép gỡ lỗi" trên TV** | Tắt công tắc USB debugging trên TV rồi bật lại, sau đó chạy lại lệnh `python tools\tv.py --probe`. |
+| **Không thấy hiện popup "Cho phép gỡ lỗi" trên TV** | Tắt công tắc USB debugging trên TV rồi bật lại, sau đó chạy lại lệnh `tools\venv\Scripts\python tools\tv.py --probe`. |
 | **Cổng HDMI hoặc Remote không nhận sau khi cài** | Khởi động lại TV (rút nguồn 10 giây cắm lại để TV cold-boot). Các driver HDMI và remote luôn được mã nguồn bảo vệ. |
